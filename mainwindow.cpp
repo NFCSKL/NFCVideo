@@ -19,7 +19,7 @@ MainWindow::MainWindow()
 	wgt->setMinimumSize(200, 200);
 	setCentralWidget(wgt);
 
-	setMinimumSize(500, 500);
+	setMinimumSize(400, 400);
 
 	createActions();
 	createStatusBar();

@@ -196,10 +196,7 @@ void VideoWidget::xxxxClicked(void)
 	cv::Mat img = cv::imread("E:\\6.Testdata\\Bilder\\fruits.jpg");
 //	cv::Mat img = cv::imread("C:\\2.Testdata\\Bilder\\boldt.jpg");
 	cv::resize(img, _tmp, cv::Size(img.cols * 5, img.rows * 5), 0, 0, cv::INTER_NEAREST);
-	//cv::resize(img, _tmp, cv::Size(), 2, 2, cv::INTER_NEAREST);
 	videoOutput->showImage(_tmp);
-	//videoOutput->adjustSize();
-
 }
 
 void VideoWidget::yyyyClicked(void)
@@ -208,10 +205,7 @@ void VideoWidget::yyyyClicked(void)
 	cv::Mat img = cv::imread("E:\\6.Testdata\\Bilder\\fruits.jpg");
 	//	cv::Mat img = cv::imread("C:\\2.Testdata\\Bilder\\boldt.jpg");
 	cv::resize(img, _tmp, cv::Size(img.cols * 5, img.rows * 5), 0, 0, cv::INTER_CUBIC);
-	//cv::resize(img, _tmp, cv::Size(), 2, 2, cv::INTER_NEAREST);
 	videoOutput->showImage(_tmp);
-	//videoOutput->adjustSize();
-
 }
 
 void VideoWidget::zzzzClicked(void)
@@ -251,8 +245,6 @@ void VideoWidget::resize(cv::Mat& _tmp, const cv::Mat& img)
 		else
 			scaleFactor = wig_w / img_w;
 
-		//if( (double(siz.width()) / (double(img.cols)) > (double(siz.height()) / double(img.rows))
-		//7 == 5 ? 4 : 3     // evaluates to 3, since 7 is not equal to 5.
 	}
 
 	if(scaleFactor > 1.0)
