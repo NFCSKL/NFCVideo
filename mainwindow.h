@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <videowidget.h>
 #include <qtreewidget.h>
+#include <MyTestWidget.h>
 
 QT_BEGIN_NAMESPACE
 class QAction;
@@ -38,11 +39,14 @@ private:
 	void resizeEvent(QResizeEvent * event);
 
 	QTextEdit *textEdit;
+	MyTestWidget *myWidget;
 	QTreeWidget *projectTree;
 	QListWidget *paragraphsList;
 	VideoWidget* wgt;
 	VideoWidget* ww;
 	QMenu *viewMenu;
+
+	bool videoWidgetShown;
 };
 //! [0]
 

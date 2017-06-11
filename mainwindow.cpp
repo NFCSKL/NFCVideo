@@ -13,11 +13,13 @@
 MainWindow::MainWindow()
 	: textEdit(new QTextEdit)
 {
-
+	myWidget = new MyTestWidget(this);
 
 	wgt = new VideoWidget(this);
 	wgt->setMinimumSize(200, 200);
+
 	setCentralWidget(wgt);
+	//setCentralWidget(textEdit);
 
 	setMinimumSize(400, 400);
 
@@ -36,6 +38,7 @@ void MainWindow::newLetter()
 {
 	cv::Mat img = cv::imread("E:\\6.Testdata\\Bilder\\fruits.jpg");
 	//cv::Mat img = cv::imread("C:\\2.Testdata\\Bilder\\fruits.jpg");
+
 	wgt->showImage(img);
 
 }
@@ -65,6 +68,9 @@ void MainWindow::save()
 void MainWindow::undo()
 {
 	ww->close();
+	QWidget* savedWidget = centralWidget();
+	savedWidget->setParent(0);//now it is saved
+	setCentralWidget(myWidget);
 }
 //! [5]
 
@@ -115,11 +121,9 @@ void MainWindow::addParagraph(const QString &paragraph)
 
 void MainWindow::about()
 {
-	QMessageBox::about(this, tr("About Dock Widgets"),
-		tr("The <b>Dock Widgets</b> example demonstrates how to "
-			"use Qt's dock widgets. You can enter your own text, "
-			"click a customer to add a customer name and "
-			"address, and click standard paragraphs to add them."));
+	QWidget* savedWidget = centralWidget();
+	savedWidget->setParent(0);//now it is saved
+	setCentralWidget(wgt);
 }
 
 void MainWindow::createActions()
@@ -127,7 +131,7 @@ void MainWindow::createActions()
 	QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
 	QToolBar *fileToolBar = addToolBar(tr("File"));
 
-	const QIcon newIcon = QIcon::fromTheme("document-new", QIcon(":/images/new.png"));
+	const QIcon newIcon = QIcon::fromTheme("document-new", QIcon("C:/Users/NIAP/Documents/GitHub/NFCVideo/images/new.png"));
 	QAction *newLetterAct = new QAction(newIcon, tr("&New Letter"), this);
 	newLetterAct->setShortcuts(QKeySequence::New);
 	newLetterAct->setStatusTip(tr("Create a new form letter"));
@@ -135,7 +139,7 @@ void MainWindow::createActions()
 	fileMenu->addAction(newLetterAct);
 	fileToolBar->addAction(newLetterAct);
 
-	const QIcon saveIcon = QIcon::fromTheme("document-save", QIcon(":/images/save.png"));
+	const QIcon saveIcon = QIcon::fromTheme("document-save", QIcon("C:/Users/NIAP/Documents/GitHub/NFCVideo/images/save.png"));
 	QAction *saveAct = new QAction(saveIcon, tr("&Save..."), this);
 	saveAct->setShortcuts(QKeySequence::Save);
 	saveAct->setStatusTip(tr("Save the current form letter"));
@@ -143,7 +147,7 @@ void MainWindow::createActions()
 	fileMenu->addAction(saveAct);
 	fileToolBar->addAction(saveAct);
 
-	const QIcon printIcon = QIcon::fromTheme("document-print", QIcon(":/images/print.png"));
+	const QIcon printIcon = QIcon::fromTheme("document-print", QIcon("C:/Users/NIAP/Documents/GitHub/NFCVideo/images/print.png"));
 	QAction *printAct = new QAction(printIcon, tr("&Print..."), this);
 	printAct->setShortcuts(QKeySequence::Print);
 	printAct->setStatusTip(tr("Print the current form letter"));
@@ -159,7 +163,7 @@ void MainWindow::createActions()
 
 	QMenu *editMenu = menuBar()->addMenu(tr("&Edit"));
 	QToolBar *editToolBar = addToolBar(tr("Edit"));
-	const QIcon undoIcon = QIcon::fromTheme("edit-undo", QIcon(":/images/undo.png"));
+	const QIcon undoIcon = QIcon::fromTheme("edit-undo", QIcon("C:/Users/NIAP/Documents/GitHub/NFCVideo/images/undo.png"));
 	QAction *undoAct = new QAction(undoIcon, tr("&Undo"), this);
 	undoAct->setShortcuts(QKeySequence::Undo);
 	undoAct->setStatusTip(tr("Undo the last editing action"));
@@ -200,10 +204,27 @@ void MainWindow::createDockWindows()
 	parentItem->setText(0, "E:\\7.DEP\\Icons1\\1471538888_video.png");
 	parentItem->setIcon(0, *(new QIcon("E:\\7.DEP\\Icons1\\1471538888_video.png")));
 	projectTree->addTopLevelItem(parentItem);
+	projectTree->setIconSize(QSize(50, 50));
+
 	QTreeWidgetItem *child1 = new QTreeWidgetItem();
 	child1->setText(0,"Motion detection");
 	child1->setIcon(0, *(new QIcon("E:\\7.DEP\\Icons1\\1471538879_search.png")));
 	parentItem->addChild(child1);
+
+	child1 = new QTreeWidgetItem();
+	child1->setText(0, "Motion detection2");
+	cv::VideoCapture cap("E:\\6.Testdata\\SL\\FHP-P112.avi");
+	cv::Mat frame;
+	cap >> frame;
+	QImage qimage = QImage(frame.data, frame.cols, frame.rows, frame.cols * 3, QImage::Format_RGB888);
+	QPixmap pix;
+	pix.convertFromImage(qimage);
+	QIcon ico(pix);
+
+	child1->setIcon(0, ico);
+	//child1->setIcon(0, *(new QIcon(pix)));
+	parentItem->addChild(child1);
+
 	dock->setWidget(projectTree);
 	addDockWidget(Qt::LeftDockWidgetArea, dock);
 	viewMenu->addAction(dock->toggleViewAction());
