@@ -250,7 +250,7 @@ void VideoWidget::resize(cv::Mat& _tmp, const cv::Mat& img)
 	if(scaleFactor > 1.0)
 		cv::resize(img, _tmp, cv::Size(img.cols * scaleFactor, img.rows * scaleFactor), 0, 0, cv::INTER_CUBIC);
 	else
-		cv::resize(img, _tmp, cv::Size(img.cols * scaleFactor, img.rows * scaleFactor), 0, 0, cv::INTER_AREA);
+		cv::resize(img, _tmp, cv::Size(img.cols * scaleFactor, img.rows * scaleFactor), 0, 0, cv::INTER_NEAREST);
 
 }
 
